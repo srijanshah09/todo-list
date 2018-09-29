@@ -1,0 +1,63 @@
+body {
+	background: rgba(44, 62, 80, .8);
+	font-family: 'Oswald', 'Futura', sans-serif;
+}
+#wrapper{
+	margin-top: 5%;
+}
+#content {
+	background: beige;
+	padding: 25px;
+}
+
+form{
+	margin-top: 20px;
+}
+input[type="button"]{
+	font-family: "Font Awesome 5 Free"; // for the open access version
+    font-size: 1.3333333333333333em;
+    font-weight: 900;
+}
+#date_add, #date_search{
+	font-family: Arial;
+}
+#title{
+	text-align: center;
+	background-color: red;
+}
+#list {
+	margin-top: 25px;
+}
+.t10 {
+	margin-top: 10px;
+}
+.t20 {
+	margin-top: 20px;
+}
+ul{
+	list-style: none;
+}
+
+.todo-completed {
+	text-decoration: line-through;
+	background: rgba(149, 165, 166, .3);
+}
+footer {
+	margin-top: 20px;
+	color: white;
+}
+.list-group-item {
+	color: black;
+}
+
+
+@media screen and (max-width:700px){
+#task{
+	min-width: 200px;
+	margin-top: 10px;
+}
+#add{
+	margin-top: 10px;
+}
+
+} 

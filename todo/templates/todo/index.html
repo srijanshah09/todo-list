@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PROFILE</title>
+
+	<!-- Bootstrap CDN -->
+	<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-gJWVjz180MvwCrGGkC4xE5FjhWkTxHIR/+GgT8j2B3KKMgh6waEjPgzzh7lL7JZT" crossorigin="anonymous">
+
+	<!-- FontAwesome CDN -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+	<!-- Oswald font CDN-->	
+	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+	
+	<!--datepicker css-->
+	<link rel="stylesheet" type="text/css" href="{% static 'todo/bs/css/bootstrap-datepicker.css' %}">
+	
+	<!-- style css -->
+	<link rel="stylesheet" type="text/css" href="{% static 'todo/style_1.css' %}">
+</head>
+<body>
+	<nav class="navbar navbar-light bg-light">
+		<a class="navbar-brand" href="#">TO-DO</a>
+		<a class="" href="/home">LOGOUT</a>
+	</nav>
+
+	<div class="container-fluid" id="wrapper">
+		<div class="row justify-content-center">
+			<div id="content" class="p4">
+				<div class="row justify-content-center bg-info">
+					<h1 class="">TO-DO APP</h1>
+				</div>
+				
+				
+					<form role="form" class="pt-3">
+						<div class="form-group">
+							
+							<div class="justify-content-center input-group">
+								<div class="dropdown  pr-1">
+	  								<button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	  									TASK TYPE
+									<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									  	<li><a href="#" data-value="action">PERSONAL</a></li>
+									  	<li><a href="#" data-value="another action">WORK</a></li>
+									</ul>
+								</div>
+								<input type="button" class="btn btn-secondary" id="date_add" autocomplete="off" value="&#xf073;">
+								<input type="text" id="task" placeholder="Enter your task here" class="form-control">
+								<span class="input-group-btn" id="add">
+									<button class="btn btn-success">ADD</button>
+								</span>
+							</div>
+						</div>
+						
+					</form>
+				
+				
+				<div class="row justify-content-center pt-3">
+					<h2 class="bg-danger p-2">TASK LIST</h2>
+				</div>
+				
+				<div class="row justify-content-center pt-3">
+					<input type="button" class="btn btn-success" id="date_search" autocomplete="off" value="&#xf073;">
+				</div>
+
+				<div class="row justify-content-center pt-3">
+					<div class="card bg-primary p-2 m-1">
+						<div class="card-header justify-content-center">
+							<h3 class="text-white">PERSONAL</h3>
+						</div>
+						<ul class="list-group">
+							<li class="list-group-item d-flex justify-content-between">
+								<a href="#">SLEEP</a>
+								<span class="badge badge-danger align-self-end">HIGH</span>
+							</li>
+							
+							<li class="list-group-item todo-completed d-flex justify-content-between">
+								<a href="" class="">EAT</a>
+								<a href=""><span class="align-self-end"><i class="fas fa-undo-alt"></i></span></a>
+							</li>
+							
+							<li class="list-group-item d-flex justify-content-between">
+								<a href="#" class="">EXERCISE</a> 
+								<span class="badge  badge-warning align-self-end">MEDIUM</span>
+							</li>
+						</ul>
+						<div class="row t10">
+							<div class="btn-toolbar px-2">
+								<div class=" btn btn-group">
+									<a href="#"><button type="button" class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE COMPLETED</button></a>
+								</div>
+								<div class=" btn btn-group">
+									<a href="#"><button type="button" class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE ALL</button></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card bg-secondary p-2 m-1">
+						<div class="card-header justify-content-center">
+							<h3>WORK</h3>
+						</div>
+						<ul class="list-group">
+							<li class="list-group-item d-flex justify-content-between">
+								<a href="#">SLEEP</a>
+								<span class="badge badge-danger align-self-end">HIGH</span>
+							</li>
+							
+							<li class="list-group-item todo-completed d-flex justify-content-between">
+								<a href="" class="">EAT</a>
+								<a href=""><span class="align-self-end"><i class="fas fa-undo-alt"></i></span></a>
+							</li>
+							
+							<li class="list-group-item d-flex justify-content-between">
+								<a href="#" class="">EXERCISE</a> 
+								<span class="badge  badge-warning align-self-end">MEDIUM</span>
+							</li>
+						</ul>
+						<div class="row t10">
+							<div class="btn-toolbar px-2">
+								<div class=" btn btn-group">
+									<a href="#"><button type="button" class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE COMPLETED</button></a>
+								</div>
+								<div class=" btn btn-group">
+									<a href="#"><button type="button" class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE ALL</button></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="row pad p-3">
+					<div class="col-lg-12 text-center">
+						Copyright &copy; 2017 <strong>To-Do App</strong>
+					</div>
+				</div>
+		</footer>
+	</div>
+
+
+<!-- SCRIPTS -->
+
+		<!--JQuery CDN -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		<!--JQuery UI CDN-->
+		<script
+  		src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+  		integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+  		crossorigin="anonymous"></script>
+		
+		<!--Popper JS CDN-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+		<!--Bootstrap JS CDN-->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		
+		<!-- Datepicker JS -->
+		<script type="text/javascript" src="{% static 'todo/bs/js/bootstrap-datepicker.js' %}"></script>
+
+		<script type="text/javascript" src="{% static 'todo/script.js' %}"></script>
+		
+</body>
+</html>
