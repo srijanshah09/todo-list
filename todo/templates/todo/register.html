@@ -7,21 +7,25 @@
 			  	<div class="card-header bg-primary p-5" id="card-header"><h2 class="text-white text-center">TO-DO APP</h2></div>
 			  	<legend class="text-center mt-4">Registration Form</legend>
 			  	<div class="card-body mt-1">
-			  		<form>
+			  		<form method="post">
+			  			{% csrf_token %}
 				  		<div class="form-group">
 					      	<label for="exampleInputEmail1">Username :</label>
-					      	<input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Username">
-					      	<small id="usernameHelp" class="form-text text-muted">Enter your username.</small>
+					      	{{ form.username }}
+					      	{% if error == 'Username unavailable. Please try another.' %}
+					      	<small id="usernameHelp" class="form-text text-danger">{{error}}</small>
+					      	{% endif %}
 					    </div>
 				  		<div class="form-group">
 					      	<label for="exampleInputEmail1">Password :</label>
-					      	<input type="email" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password">
-					      	<small id="passwordHelp" class="form-text text-muted">Enter your password.</small>
+					      	{{ form.password }}
 					    </div>
 					    <div class="form-group">
 					      	<label for="exampleInputEmail1">Confirm Password :</label>
-					      	<input type="email" class="form-control" id="password_1" aria-describedby="emailHelp" placeholder="Confirm Password">
-					      	<small id="confirmHelp" class="form-text text-muted">Confirm your password.</small>
+					      	{{ form.password1 }}
+					      	{% if error == 'Passwords do not match. Please try again'%}
+					      	<small id="confirmHelp" class="form-text text-danger">{{error}}</small>
+					      	{% endif %}
 					    </div>
 					    <div class="form-group py-3 d-flex justify-content-between">
 						    <a href="/home">Login Page</a>
@@ -31,4 +35,5 @@
 			  	</div>
 			</div>
 		</div>
+
 {% endblock %}

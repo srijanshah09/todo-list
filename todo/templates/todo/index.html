@@ -8,7 +8,8 @@
 	<title>PROFILE</title>
 
 	<!-- Bootstrap CDN -->
-	<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-gJWVjz180MvwCrGGkC4xE5FjhWkTxHIR/+GgT8j2B3KKMgh6waEjPgzzh7lL7JZT" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'todo/bs/css/flatly.min.css'%}">
+	
 
 	<!-- FontAwesome CDN -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
@@ -16,44 +17,47 @@
 	<!-- Oswald font CDN-->	
 	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 	
-	<!--datepicker css-->
-	<link rel="stylesheet" type="text/css" href="{% static 'todo/bs/css/bootstrap-datepicker.css' %}">
-	
 	<!-- style css -->
 	<link rel="stylesheet" type="text/css" href="{% static 'todo/style_1.css' %}">
 </head>
 <body>
 	<nav class="navbar navbar-light bg-light">
 		<a class="navbar-brand" href="#">TO-DO</a>
-		<a class="" href="/home">LOGOUT</a>
+		<a class="" href="{% url 'logout' %}">LOGOUT</a>
 	</nav>
-
+	
 	<div class="container-fluid" id="wrapper">
 		<div class="row justify-content-center">
-			<div id="content" class="p4">
+			<div id="content" class="px-5">
 				<div class="row justify-content-center bg-info">
-					<h1 class="">TO-DO APP</h1>
+					<h1 class="py-2">TO-DO APP</h1>
 				</div>
 				
-				
-					<form role="form" class="pt-3">
+				<h4 class="pt-3">Add Task :</h4>
+					<form class="" action="{% url 'addTask' %}" method="POST">
+						{% csrf_token%}
 						<div class="form-group">
 							
 							<div class="justify-content-center input-group">
-								<div class="dropdown  pr-1">
-	  								<button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-	  									TASK TYPE
-									<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									  	<li><a href="#" data-value="action">PERSONAL</a></li>
-									  	<li><a href="#" data-value="another action">WORK</a></li>
-									</ul>
-								</div>
-								<input type="button" class="btn btn-secondary" id="date_add" autocomplete="off" value="&#xf073;">
-								<input type="text" id="task" placeholder="Enter your task here" class="form-control">
+								<select class="form-control field" name="task_type" id="exampleSelect1" placeholder="Task Type">
+									<option selected hidden>TYPE</option>
+							        <option>PERSONAL</option>
+							        <option>WORK</option>
+							      </select>
+								
+								<input type="date" name="task_date" class="form-control field" placeholder="Date">
+								
+								<input type="text" name="task_text" placeholder="Enter your task here" class="form-control field">
+								
+								<select class="form-control field" name="task_priority" id="exampleSelect1" placeholder="Task Type">
+							        <option selected hidden>PRIORITY</option>
+							        <option>HIGH</option>
+							        <option>MEDIUM</option>
+							        <option>LOW</option>
+							      </select>
+								
 								<span class="input-group-btn" id="add">
-									<button class="btn btn-success">ADD</button>
+									<button class="btn btn-success add">ADD</button>
 								</span>
 							</div>
 						</div>
@@ -62,72 +66,118 @@
 				
 				
 				<div class="row justify-content-center pt-3">
-					<h2 class="bg-danger p-2">TASK LIST</h2>
+					<h2 class="bg-danger py-2 px-3">TASK LIST</h2>
 				</div>
 				
-				<div class="row justify-content-center pt-3">
-					<input type="button" class="btn btn-success" id="date_search" autocomplete="off" value="&#xf073;">
+				<div class="row justify-content-center pt-1">
+					<h4 class="align-self-end px-3">Select date to view task list :</h4>
+					<form class="form-inline" action="{% url 'index' %}" method='POST'>{% csrf_token %}
+					<input type="date" name="search_date" class="form-control field" placeholder="Date">
+					<span class="input-group-btn" id="search">
+						<button class="btn btn-success add"><i class="fas fa-search"></i></button>
+					</span>
+					</form>
+				</div>
+				
+				<div class="row justify-content-center mt-4">
+					<h2>{{date}}</h2>
 				</div>
 
-				<div class="row justify-content-center pt-3">
-					<div class="card bg-primary p-2 m-1">
+				<div class="row justify-content-center mt-4">
+					<div class="card bg-primary pt-2 col-md-6 mt-3">
 						<div class="card-header justify-content-center">
 							<h3 class="text-white">PERSONAL</h3>
 						</div>
 						<ul class="list-group">
-							<li class="list-group-item d-flex justify-content-between">
-								<a href="#">SLEEP</a>
-								<span class="badge badge-danger align-self-end">HIGH</span>
-							</li>
-							
-							<li class="list-group-item todo-completed d-flex justify-content-between">
-								<a href="" class="">EAT</a>
-								<a href=""><span class="align-self-end"><i class="fas fa-undo-alt"></i></span></a>
-							</li>
-							
-							<li class="list-group-item d-flex justify-content-between">
-								<a href="#" class="">EXERCISE</a> 
-								<span class="badge  badge-warning align-self-end">MEDIUM</span>
-							</li>
-						</ul>
+						{% for task in tasks %}
+							{% if task.task_type == 'PERSONAL' %}
+								{% if task.task_status  %}
+									<li class="list-group-item todo-completed d-flex justify-content-between">
+										<span>{{task.task_text}}</span>
+										<a href="{% url 'updateStatus' task.id  %}"><span class="align-self-end"><i class="fas fa-undo-alt"></i></span></a>
+									</li>
+																		
+								{% else %}
+									<li class="list-group-item d-flex justify-content-between">
+										<a href="{% url 'updateStatus' task.id %}">{{ task.task_text }}</a>
+										{% if task.task_priority == 'HIGH' %}
+											<span class="badge badge-danger align-self-end">{{task.task_priority}}</span>
+										{% elif task.task_priority == 'MEDIUM'%}
+											<span class="badge badge-warning align-self-end">{{task.task_priority}}</span>
+										{% else %}
+											<span class="badge badge-info align-self-end">{{task.task_priority}}</span>
+										{% endif %}										
+									</li>
+								{% endif %}
+							{% endif %}	
+						{% endfor %}
+
 						<div class="row t10">
 							<div class="btn-toolbar px-2">
 								<div class=" btn btn-group">
-									<a href="#"><button type="button" class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE COMPLETED</button></a>
+									<form action="{% url 'deleteCompleted' %}" method='POST'>
+										{% csrf_token %}
+										<input type="date" name="selected_date" value="{{date|date:'Y-m-d'}}" hidden>
+										<input type="text" name="task_type" value="PERSONAL" hidden>
+										<button class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE COMPLETED</button>
+									</form>
 								</div>
 								<div class=" btn btn-group">
-									<a href="#"><button type="button" class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE ALL</button></a>
+									<form action="{% url 'deleteAll' %}" method='POST'>
+										{% csrf_token %}
+										<input type="date" name="selected_date" value="{{date|date:'Y-m-d'}}" hidden>
+										<input type="text" name="task_type" value="PERSONAL" hidden>
+										<button class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE ALL</button>
+									</form>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="card bg-secondary p-2 m-1">
+					<div class="card bg-secondary p-2 col-md-6 mt-3">
 						<div class="card-header justify-content-center">
 							<h3>WORK</h3>
 						</div>
 						<ul class="list-group">
-							<li class="list-group-item d-flex justify-content-between">
-								<a href="#">SLEEP</a>
-								<span class="badge badge-danger align-self-end">HIGH</span>
-							</li>
-							
-							<li class="list-group-item todo-completed d-flex justify-content-between">
-								<a href="" class="">EAT</a>
-								<a href=""><span class="align-self-end"><i class="fas fa-undo-alt"></i></span></a>
-							</li>
-							
-							<li class="list-group-item d-flex justify-content-between">
-								<a href="#" class="">EXERCISE</a> 
-								<span class="badge  badge-warning align-self-end">MEDIUM</span>
-							</li>
+						{% for task in tasks %}
+							{% if task.task_type == 'WORK' %}
+								{% if task.task_status  %}
+									<li class="list-group-item todo-completed d-flex justify-content-between">
+										<span>{{task.task_text}}</span>
+										<a href="{% url 'updateStatus' task.id %}"><span class="align-self-end"><i class="fas fa-undo-alt"></i></span></a>
+									</li>
+																		
+								{% else %}
+									<li class="list-group-item d-flex justify-content-between">
+										<a href="{% url 'updateStatus' task.id %}">{{ task.task_text }}</a>
+										{% if task.task_priority == 'HIGH' %}
+											<span class="badge badge-danger align-self-end">{{task.task_priority}}</span>
+										{% elif task.task_priority == 'MEDIUM'%}
+											<span class="badge badge-warning align-self-end">{{task.task_priority}}</span>
+										{% else %}
+											<span class="badge badge-info align-self-end">{{task.task_priority}}</span>
+										{% endif %}										
+									</li>
+								{% endif %}
+							{% endif %}	
+						{% endfor %}
 						</ul>
 						<div class="row t10">
 							<div class="btn-toolbar px-2">
 								<div class=" btn btn-group">
-									<a href="#"><button type="button" class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE COMPLETED</button></a>
+									<form action="{% url 'deleteCompleted' %}" method='POST'>
+										{% csrf_token %}
+										<input type="date" name="selected_date" value="{{date|date:'Y-m-d'}}" hidden>
+										<input type="text" name="task_type" value="WORK" hidden>
+										<button class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE COMPLETED</button>
+									</form>
 								</div>
 								<div class=" btn btn-group">
-									<a href="#"><button type="button" class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE ALL</button></a>
+									<form action="{% url 'deleteAll' %}" method='POST'>
+										{% csrf_token %}
+										<input type="date" name="selected_date" value="{{date|date:'Y-m-d'}}" hidden>
+										<input type="text" name="task_type" value="WORK" hidden>
+										<button class="btn btn-warning"><i class="fas fa-trash-alt"></i> DELETE ALL</button>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -143,29 +193,6 @@
 				</div>
 		</footer>
 	</div>
-
-
-<!-- SCRIPTS -->
-
-		<!--JQuery CDN -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-		<!--JQuery UI CDN-->
-		<script
-  		src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-  		integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-  		crossorigin="anonymous"></script>
-		
-		<!--Popper JS CDN-->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-		<!--Bootstrap JS CDN-->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		
-		<!-- Datepicker JS -->
-		<script type="text/javascript" src="{% static 'todo/bs/js/bootstrap-datepicker.js' %}"></script>
-
-		<script type="text/javascript" src="{% static 'todo/script.js' %}"></script>
 		
 </body>
 </html>
